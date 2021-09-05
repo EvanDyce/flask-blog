@@ -2,16 +2,23 @@
 
 {% block content %}
     <div class="content_section">
+        <!-- registration form  -->
         <form action="" method="POST">
             {{ form.hidden_tag() }}
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">Join Today</legend>
+
+                <!-- all other ones are the same just refer here  -->
+                <!-- username form group  -->
                 <div class="form-group">
+                    <!-- username label above input  -->
                     {{ form.username.label(class="form-control-label") }}
                     
                     {% if form.username.errors %}
+                        <!-- if it errors load box with invalid  -->
                         {{ form.username(class="form-control form-countol-lg is-invalid") }}
                         <div class="invalid-feedback">
+                            <!-- display all errors  -->
                             {% for error in form.username.errors %}
                                 <span>{{ error }}</span>
                             {% endfor %}

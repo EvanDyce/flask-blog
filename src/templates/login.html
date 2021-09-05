@@ -2,15 +2,19 @@
 
 {% block content %}
     <div class="content_section">
+        <!-- login form  -->
         <form action="" method="POST">
             {{ form.hidden_tag() }}
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">Log In</legend>
 
+                <!-- email title and entry -->
                 <div class="form-group">
+                    <!-- shows email above the box  -->
                     {{ form.email.label(class="form-control-label") }}
 
                     {% if form.email.errors %}
+                        <!-- loads box with invalid formatting  -->
                         {{ form.email(class="form-control form-countol-lg is-invalid") }}
                         <div class="invalid-feedback">
                             {% for error in form.email.errors %}
@@ -19,11 +23,14 @@
                         </div>
                     
                     {% else %}
+                        <!-- if no error than loads email box without invalid formatting  -->
                         {{ form.email(class="form-control form-countol-lg") }}
                     {% endif %}
                 </div>
 
+                <!-- password title and entry  -->
                 <div class="form-group">
+                    <!-- password title  -->
                     {{ form.password.label(class="form-control-label") }}
 
                     {% if form.password.errors %}
@@ -39,10 +46,12 @@
                     {% endif %}
                 </div>
 
+                <!-- remember me check  -->
                 <div class="form-check">
                     {{ form.remember(class="form-check-input") }}
                     {{ form.remember.label(class="form-check-label") }}
                 </div>
+
             </fieldset>
             <div class="form-group">
                 {{ form.submit(class="btn btn-outline-info") }}
