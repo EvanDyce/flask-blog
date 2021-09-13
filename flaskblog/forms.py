@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import BooleanField, StringField, PasswordField, SubmitField
-from wtforms.validators import DataRequired, EqualTo, Length, Email
+from wtforms.validators import DataRequired, EqualTo, Length, Email, ValidationError
+from flaskblog.models import User
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username', 
@@ -16,6 +17,22 @@ class RegistrationForm(FlaskForm):
                                     validators=[DataRequired(), EqualTo('password', 'Passwords must match')])
 
     submit = SubmitField('Sign Up')
+
+    def validate_username(self, username):
+        # if there is a user in the database with the same username will return ite
+        # else it will just be null and conditional is Falsey
+        user = User.query.filter_by(username=username.data).first()
+        
+        if user:
+            raise ValidationError('Username is already taken. Choose a new one.')
+
+    def validate_email(self, email):
+        # if there is a user in the database with the same email will return ite
+        # else it will just be null and conditional is Falsey
+        user = User.query.filter_by(email=email.data).first()
+        
+        if user:
+            raise ValidationError('Account with this email already exists.')
 
 
 class LoginForm(FlaskForm):
