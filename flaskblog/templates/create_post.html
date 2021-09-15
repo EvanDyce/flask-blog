@@ -1,0 +1,55 @@
+{% extends "index.html" %}
+
+{% block content %}
+<div class="content_section">
+    <!-- login form  -->
+    <form action="" method="POST">
+        {{ form.hidden_tag() }}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">New Post</legend>
+
+            <!-- title title and entry -->
+            <div class="form-group">
+                <!-- shows title above the box  -->
+                {{ form.title.label(class="form-control-label") }}
+
+                {% if form.title.errors %}
+                    <!-- loads box with invalid formatting  -->
+                    {{ form.title(class="form-control form-countol-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.title.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                
+                {% else %}
+                    <!-- if no error than loads title box without invalid formatting  -->
+                    {{ form.title(class="form-control form-countol-lg") }}
+                {% endif %}
+            </div>
+
+            <!-- content title and entry  -->
+            <div class="form-group">
+                <!-- content title  -->
+                {{ form.content.label(class="form-control-label") }}
+
+                {% if form.content.errors %}
+                    {{ form.content(class="form-control form-countol-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.content.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                
+                {% else %}
+                    {{ form.content(class="form-control form-countol-lg") }}
+                {% endif %}
+            </div>
+
+         </fieldset>
+        <div class="form-group">
+            {{ form.submit(class="btn btn-outline-info") }}
+        </div>
+    </form>
+</div>
+{% endblock content %}
