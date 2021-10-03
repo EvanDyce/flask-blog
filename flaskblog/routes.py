@@ -11,37 +11,11 @@ from flaskblog.forms import CreatePostForm, RegistrationForm, LoginForm, UpdateA
 from flaskblog.models import Post, User
 
 
-posts = [
-    {
-        'author' : 'Evan Dyce', 
-        'title' : 'Blog Post 1', 
-        'content' : 'First Post Content',
-        'date_posted' : 'August 19, 2021'
-    }, 
-    {
-        'author' : 'Josh Dyce', 
-        'title' : 'Blog Post 2', 
-        'content' : 'I am bad at golf',
-        'date_posted' : 'August 19, 2021'
-    }, 
-    {
-        'author' : 'Evan Dyce', 
-        'title' : 'Flask', 
-        'content' : 'I\'m making a flask thing',
-        'date_posted' : 'August 19, 2021'
-    }, 
-    {
-        'author' : 'Josh Dyce', 
-        'title' : 'Blog Post 4', 
-        'content' : 'I am so bad at golf and also suck at catan',
-        'date_posted' : 'August 19, 2021'
-    }
-]
-
 
 @app.route("/")
 @app.route("/home", methods=['GET', 'POST'])
 def home():
+    posts = Post.query.all()
     return render_template("home.html", posts=posts)
 
 @app.route("/about")
@@ -148,8 +122,16 @@ def new_post():
     form = CreatePostForm()
 
     if form.validate_on_submit():
+        post = Post(title=form.title.data, content=form.content.data, author=current_user)
+        db.session.add(post)
+        db.session.commit()
         flash('Your post has been created!', 'success')
         return redirect(url_for('home'))
 
     return render_template('create_post.html', title='New Post', form=form)
+
+@app.route("/post/<int:post_id>")
+def post(post_id):
+    post = Post.query.get_or_404(post_id)
+    return render_template('post.html', title=post.title, post=post)
 
